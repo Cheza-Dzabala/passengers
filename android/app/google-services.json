@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "753032829506",
+    "project_id": "passengers-8edc9",
+    "storage_bucket": "passengers-8edc9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753032829506:android:859d1da4c9b77bf25a2bdb",
+        "android_client_info": {
+          "package_name": "com.axistech.passengers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753032829506-loimqrvuuqt9i0f8hb0ohkq2u72bk79k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_UDXNA5vATIkYAU7A9vaRU5bvPLT3bPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753032829506-loimqrvuuqt9i0f8hb0ohkq2u72bk79k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "753032829506-sctsaqr52uphm05jlnp30mf95pne1705.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.axistech.passengers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
