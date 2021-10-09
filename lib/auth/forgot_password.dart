@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:passengers/auth/forgot_password.dart';
-import 'package:passengers/layout.dart';
+import 'package:passengers/auth/login.dart';
 import 'package:passengers/services/firebase/authentication.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/utils/colors.dart';
@@ -10,42 +9,49 @@ import 'package:passengers/utils/decorations.dart';
 import 'package:passengers/widgets/buttons.dart';
 import 'package:passengers/widgets/text.dart';
 
-class Login extends StatefulWidget {
-  static String id = '/login';
-  const Login({Key? key}) : super(key: key);
+class ForgotPassword extends StatefulWidget {
+  static String id = '/fogort_password';
+  const ForgotPassword({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
-class _LoginState extends State<Login> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   late BuildContext _context;
   final _formKey = GlobalKey<FormState>();
-  AuthenticationService _authService = locator<AuthenticationService>();
+  bool _inAsyncCall = false;
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  AuthenticationService _authService = locator<AuthenticationService>();
 
-  bool _isLoading = false;
-
-  void _login() async {
+  _resetPassword() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
     try {
       setState(() {
-        _isLoading = true;
+        _inAsyncCall = true;
       });
-      await _authService.login(
-          email: _emailController.text, password: _passwordController.text);
-      Navigator.of(context).pushReplacementNamed(Layout.id);
+      await _authService.resetPassword(email: _emailController.text);
+      _emailController.text = '';
+      Get.snackbar(
+        'Success',
+        'Check your email for a password reset link',
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+      );
+      setState(() {
+        _inAsyncCall = false;
+      });
     } catch (e) {
       print(e);
       setState(() {
-        _isLoading = false;
+        _inAsyncCall = false;
       });
       Get.snackbar(
-        'Login failed',
-        'Unable to log you into your account',
+        'Recovery failed',
+        'We were unable to send you a password recovery link. Please try again.',
         colorText: Colors.white,
         backgroundColor: Colors.red,
       );
@@ -62,7 +68,8 @@ class _LoginState extends State<Login> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: ModalProgressHUD(
-        inAsyncCall: _isLoading,
+        inAsyncCall: _inAsyncCall,
+        color: PRIMARY_COLOR,
         child: Container(
           padding: EdgeInsets.only(top: bar.preferredSize.height),
           decoration: kAuthAndOnboardingDecoration(),
@@ -73,7 +80,7 @@ class _LoginState extends State<Login> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    'Login.',
+                    'Forgot Password.',
                     style: Theme.of(context)
                         .textTheme
                         .headline3!
@@ -114,66 +121,21 @@ class _LoginState extends State<Login> {
                               },
                             ),
                             SizedBox(height: 20),
-                            TextFormField(
-                              controller: _passwordController,
-                              keyboardType: TextInputType.text,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(color: Colors.black),
-                              cursorColor: INPUT_HINT_COLOR,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: 'Password',
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter your password';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 20),
                             kFullWidthButton(
-                                context: context,
-                                onPressed: _login,
-                                text: 'login')
+                              context: context,
+                              onPressed: _resetPassword,
+                              text: 'Reset',
+                            )
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Text('OR', style: Theme.of(context).textTheme.bodyText1!),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RawMaterialButton(
-                            splashColor: PRIMARY_COLOR,
-                            onPressed: () => print('Twitter login'),
-                            child: Image.asset(
-                              'assets/images/twitter.png',
-                              scale: 1.5,
-                            ),
-                            shape: CircleBorder(),
-                          ),
-                          RawMaterialButton(
-                            splashColor: PRIMARY_COLOR,
-                            onPressed: () => print('Google login'),
-                            child: Image.asset(
-                              'assets/images/google.png',
-                              scale: 1.5,
-                            ),
-                            shape: CircleBorder(),
-                          ),
-                        ],
-                      ),
+
                       SizedBox(height: 20),
                       kActionableText(
                         context: context,
-                        leadingText: 'forgot password?',
-                        trailingText: 'reset',
-                        onTap: () =>
-                            Navigator.of(context).pushNamed(ForgotPassword.id),
+                        leadingText: 'already have an account?',
+                        trailingText: 'login',
+                        onTap: () => Navigator.of(context).pushNamed(Login.id),
                       )
                     ],
                   ),
