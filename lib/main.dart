@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/route_manager.dart';
-import 'package:passengers/auth/forgot_password.dart';
-import 'package:passengers/auth/login.dart';
-import 'package:passengers/auth/register.dart';
-import 'package:passengers/landing.dart';
-import 'package:passengers/layout.dart';
+import 'package:passengers/pages/auth/forgot_password.dart';
+import 'package:passengers/pages/auth/login.dart';
+import 'package:passengers/pages/auth/register.dart';
+import 'package:passengers/pages/landing.dart';
+import 'package:passengers/pages/layout.dart';
+import 'package:passengers/pages/onboarding/onboarding_details.dart';
+import 'package:passengers/pages/onboarding/onboarding_profile.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/theme/theme.dart';
 import 'package:passengers/utils/colors.dart';
@@ -55,17 +58,23 @@ class _PassengersState extends State<Passengers> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: MaterialApp(
-        title: 'Passengers',
-        initialRoute: Landing.id,
-        theme: kPassengersTheme(),
-        routes: {
-          Landing.id: (context) => Landing(),
-          Login.id: (context) => Login(),
-          Register.id: (context) => Register(),
-          ForgotPassword.id: (context) => ForgotPassword(),
-          Layout.id: (context) => Layout(),
-        },
+      debugShowCheckedModeBanner: false,
+      home: ProviderScope(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Passengers',
+          initialRoute: Landing.id,
+          theme: kPassengersTheme(),
+          routes: {
+            Landing.id: (context) => Landing(),
+            Login.id: (context) => Login(),
+            Register.id: (context) => Register(),
+            ForgotPassword.id: (context) => ForgotPassword(),
+            OnboardingProfile.id: (context) => OnboardingProfile(),
+            OnboardingDetails.id: (context) => OnboardingDetails(),
+            Layout.id: (context) => Layout(),
+          },
+        ),
       ),
     );
   }

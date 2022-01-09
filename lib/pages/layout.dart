@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:passengers/landing.dart';
+import 'package:passengers/pages/landing.dart';
 import 'package:passengers/services/firebase/authentication.dart';
 import 'package:passengers/services/locator.dart';
 

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class PassengersUser {
   String id;
   String avatar;
@@ -13,16 +11,16 @@ class PassengersUser {
   bool isActivated;
 
   PassengersUser({
-    required this.id,
-    required this.avatar,
-    required this.displayName,
-    required this.firstName,
-    required this.lastName,
-    required this.gender,
-    required this.country,
-    required this.city,
-    required this.description,
-    required this.isActivated,
+    this.id = '',
+    this.avatar = '',
+    this.displayName = '',
+    this.firstName = '',
+    this.lastName = '',
+    this.gender = '',
+    this.country = '',
+    this.city = '',
+    this.description = '',
+    this.isActivated = false,
   });
 
   PassengersUser copyWith({
@@ -79,46 +77,5 @@ class PassengersUser {
       description: map['description'],
       isActivated: map['is_activated'],
     );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory PassengersUser.fromJson(String source) =>
-      PassengersUser.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'PassengersUser(id: $id, avatar: $avatar, displayName: $displayName, firstName: $firstName, lastName: $lastName, gender: $gender, country: $country, city: $city, description: $description, isActivated: $isActivated)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is PassengersUser &&
-        other.id == id &&
-        other.avatar == avatar &&
-        other.displayName == displayName &&
-        other.firstName == firstName &&
-        other.lastName == lastName &&
-        other.gender == gender &&
-        other.country == country &&
-        other.city == city &&
-        other.description == description &&
-        other.isActivated == isActivated;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        avatar.hashCode ^
-        displayName.hashCode ^
-        firstName.hashCode ^
-        lastName.hashCode ^
-        gender.hashCode ^
-        country.hashCode ^
-        city.hashCode ^
-        description.hashCode ^
-        isActivated.hashCode;
   }
 }

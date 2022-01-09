@@ -10,4 +10,6 @@ void setUpServiceLocator() {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationService());
   locator.registerLazySingleton<OnboardingService>(() => OnboardingService());
+
+  // Add Notifiers
 }

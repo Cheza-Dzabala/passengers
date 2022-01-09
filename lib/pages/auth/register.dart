@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:passengers/auth/login.dart';
-import 'package:passengers/layout.dart';
+import 'package:passengers/pages/auth/login.dart';
+import 'package:passengers/pages/onboarding/onboarding_profile.dart';
 import 'package:passengers/services/firebase/authentication.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/utils/colors.dart';
@@ -39,7 +39,8 @@ class _RegisterState extends State<Register> {
       });
       _authenticationService.signupEmailPassword(
           email: _emailController.text, password: _passwordController.text);
-      Navigator.of(_context).pushReplacementNamed(Layout.id);
+      Navigator.of(_context)
+          .pushNamedAndRemoveUntil(OnboardingProfile.id, (route) => false);
       setState(() {
         _isLoading = false;
       });

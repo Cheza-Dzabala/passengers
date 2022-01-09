@@ -10,7 +10,7 @@ SizedBox kFullWidthButton({
 }) {
   return SizedBox(
     width: double.infinity,
-    height: 50,
+    height: 60,
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: altButton ? BUTTON_ALT_COLOR : PRIMARY_COLOR,
