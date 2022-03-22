@@ -48,18 +48,18 @@ class _LoginState extends ConsumerState<Login> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      ref.read(sessionProvider.state).state = session;
+      ref.read(sessionProvider).state = session;
       Profile profile =
           await _profileService.getProfile(userId: session.userId);
-      ref.read(profileProvider.state).state = profile;
+      ref.read(profileProvider).state = profile;
       Navigator.of(context).pushReplacementNamed(Layout.id);
-    } on AppwriteException catch (e) {
+    } catch (e) {
       setState(() {
         _isLoading = false;
       });
       snackBar(
         title: 'login error',
-        message: e.message ?? 'Unable to login',
+        message: e.toString(),
         color: Colors.red,
       );
     }

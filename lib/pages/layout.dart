@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:passengers/providers/user_provider.dart';
 import 'package:passengers/widgets/app_bar.dart';
+import 'package:passengers/widgets/circular_fab.dart';
 
 import '../models/profile.model.dart';
 import '../widgets/bottom_navigation.dart';
@@ -15,8 +16,6 @@ class Layout extends ConsumerStatefulWidget {
 }
 
 class _LayoutState extends ConsumerState<Layout> {
-  late Profile profile;
-
   int _selectedIndex = 0;
 
   void _onTap(int index) {
@@ -27,9 +26,6 @@ class _LayoutState extends ConsumerState<Layout> {
 
   @override
   void initState() {
-    setState(() {
-      profile = ref.read(profileProvider.state).state;
-    });
     super.initState();
   }
 
@@ -39,10 +35,7 @@ class _LayoutState extends ConsumerState<Layout> {
       appBar: PassengersAppBar(),
       backgroundColor: Colors.white,
       body: screens().elementAt(_selectedIndex),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => print('animate'),
-        child: Icon(Icons.exit_to_app),
-      ),
+      floatingActionButton: CircularFab(),
       bottomNavigationBar: bottomNavigationBar(
         onTap: _onTap,
         selectedIndex: _selectedIndex,

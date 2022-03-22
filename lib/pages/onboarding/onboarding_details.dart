@@ -43,9 +43,9 @@ class _OnboardingDetailsState extends ConsumerState<OnboardingDetails> {
     setState(() {
       isInAsyncCall = true;
     });
-    Session session = ref.read(sessionProvider.state).state;
+    Session session = ref.read(sessionProvider).state;
 
-    Profile profile = ref.read(profileProvider.state).state;
+    Profile profile = ref.read(profileProvider).state;
     profile.description = _descriptionController.text;
     profile.phoneNumber = _phoneNumberController.text;
     profile.gender = _genderController.text;
