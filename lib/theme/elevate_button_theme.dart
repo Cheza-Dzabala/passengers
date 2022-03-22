@@ -4,7 +4,7 @@ import 'package:passengers/utils/colors.dart';
 ElevatedButtonThemeData kElevatedButtonTheme() {
   return ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      primary: PRIMARY_COLOR,
+      primary: primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
       ),

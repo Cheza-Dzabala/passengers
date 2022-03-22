@@ -1,13 +1,12 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:passengers/models/passengers_user.dart';
 import 'package:passengers/pages/onboarding/onboarding_details.dart';
 import 'package:passengers/providers/user_provider.dart';
-import 'package:passengers/services/firebase/onboarding_service.dart';
+import 'package:passengers/services/fileUpload.service.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/utils/colors.dart';
 import 'package:passengers/utils/decorations.dart';
@@ -23,39 +22,27 @@ class OnboardingProfile extends ConsumerStatefulWidget {
 }
 
 class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
-  late PassengersUser user;
+  FileUploadService _uploadService = locator<FileUploadService>();
   bool isLoadingImage = false;
-  late BuildContext _context;
+  late Uint8List profileImage;
   final _formKey = GlobalKey<FormState>();
   TextEditingController _firstName = TextEditingController();
   TextEditingController _lastName = TextEditingController();
   TextEditingController _displayName = TextEditingController();
 
-  OnboardingService _onboardingService = locator<OnboardingService>();
-
   _validate({required BuildContext context}) {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    ref.read(userProvider).state.firstName = _firstName.text;
-    ref.read(userProvider).state.lastName = _lastName.text;
-    ref.read(userProvider).state.displayName = _displayName.text;
-    if (ref.read(userProvider).state.avatar.isNotEmpty) {
-      Navigator.of(context).pushNamed(OnboardingDetails.id);
-    } else {
-      print('No avatar provided');
-      Get.snackbar(
-        'Avatar',
-        'You must upload a profile picture to continue',
-        colorText: Colors.white,
-        backgroundColor: Colors.orange,
-      );
-    }
+    ref.read(profileProvider).state.avatar = profileImage;
+    ref.read(profileProvider).state.firstName = _firstName.text;
+    ref.read(profileProvider).state.lastName = _lastName.text;
+    ref.read(profileProvider).state.displayName = _displayName.text;
+    Navigator.of(context).pushReplacementNamed(OnboardingDetails.id);
   }
 
   _selectProfilePicture() async {
     final ImagePicker _picker = ImagePicker();
-    // Get permissions for gallery
     Permission.photos.request().then((value) async {
       if (value == PermissionStatus.permanentlyDenied) {
         openAppSettings();
@@ -66,10 +53,11 @@ class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
             setState(() {
               isLoadingImage = true;
             });
-            String avatarUrl =
-                await _onboardingService.uploadAvatar(file: File(image.path));
-            ref.read(userProvider).state.avatar = avatarUrl;
+            Uint8List filePreview =
+                await _uploadService.uploadImage(image: image);
+
             setState(() {
+              profileImage = filePreview;
               isLoadingImage = false;
             });
           } catch (e) {
@@ -93,15 +81,12 @@ class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
 
   @override
   void initState() {
+    profileImage = Uint8List(0);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Listen to riverpod user provider changes
-    final user = ref.watch(userProvider);
-
-    _context = context;
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -128,7 +113,7 @@ class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
                   'STEP 1 of 4',
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
                         letterSpacing: 6,
-                        color: SUBTITLE_COLOR,
+                        color: subtitleColor,
                       ),
                 ),
                 SizedBox(height: 30),
@@ -137,28 +122,28 @@ class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: PRIMARY_COLOR,
+                      color: primaryColor,
                       width: 1,
                     ),
                   ),
                   child: Center(
-                    child: IconButton(
-                      iconSize: 80,
-                      onPressed: _selectProfilePicture,
-                      icon: isLoadingImage
-                          ? CircularProgressIndicator(
-                              color: PRIMARY_COLOR,
-                            )
-                          : user.state.avatar.isEmpty
-                              ? Image.asset(
-                                  'assets/images/camera-line.png',
-                                )
-                              : CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(user.state.avatar),
-                                  radius: 80,
+                    child: isLoadingImage
+                        ? CircularProgressIndicator(color: primaryColor)
+                        : profileImage.length != 0
+                            ? GestureDetector(
+                                onTap: _selectProfilePicture,
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: MemoryImage(profileImage),
                                 ),
-                    ),
+                              )
+                            : IconButton(
+                                iconSize: 80,
+                                onPressed: _selectProfilePicture,
+                                icon: Image.asset(
+                                  'assets/images/camera-line.png',
+                                ),
+                              ),
                   ),
                 ),
                 SizedBox(height: 40),

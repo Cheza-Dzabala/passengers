@@ -1,4 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/route_manager.dart';
@@ -27,11 +28,16 @@ class InitializeApp extends StatefulWidget {
 }
 
 class _InitializeAppState extends State<InitializeApp> {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  // final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  Future<String> _initialization() => Future.delayed(
+        const Duration(seconds: 2),
+        () => 'Large Latte',
+      );
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initialization,
+      // future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return MaterialApp(home: Loading());
@@ -94,7 +100,7 @@ class Loading extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircularProgressIndicator(color: PRIMARY_COLOR),
+            CircularProgressIndicator(color: primaryColor),
             Text('Preparing Application')
           ],
         ),

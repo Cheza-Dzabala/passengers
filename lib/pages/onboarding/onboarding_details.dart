@@ -87,7 +87,7 @@ class _OnboardingDetailsState extends ConsumerState<OnboardingDetails> {
                   'STEP 2 of 4',
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
                         letterSpacing: 6,
-                        color: SUBTITLE_COLOR,
+                        color: subtitleColor,
                       ),
                 ),
                 SizedBox(height: _height * 0.2),
@@ -102,7 +102,7 @@ class _OnboardingDetailsState extends ConsumerState<OnboardingDetails> {
                         padding: EdgeInsets.all(15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: INPUT_FILL_COLOR,
+                          color: inputFillColor,
                         ),
                         child: DropdownButton<String>(
                           underline: SizedBox(),
@@ -112,7 +112,7 @@ class _OnboardingDetailsState extends ConsumerState<OnboardingDetails> {
                           hint: Text(
                             'Gender',
                             style: TextStyle(
-                              color: INPUT_HINT_COLOR,
+                              color: inputHintColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),

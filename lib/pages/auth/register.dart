@@ -1,16 +1,20 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:passengers/feedback/snackbar.feedback.dart';
 import 'package:passengers/pages/auth/login.dart';
 import 'package:passengers/pages/onboarding/onboarding_profile.dart';
-import 'package:passengers/services/firebase/authentication.dart';
+import 'package:passengers/providers/user_provider.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/utils/colors.dart';
 import 'package:passengers/utils/decorations.dart';
 import 'package:passengers/widgets/buttons.dart';
 import 'package:passengers/widgets/text.dart';
 
-class Register extends StatefulWidget {
+import '../../services/authentication.service.dart';
+
+class Register extends ConsumerStatefulWidget {
   static String id = '/register';
   const Register({Key? key}) : super(key: key);
 
@@ -18,8 +22,7 @@ class Register extends StatefulWidget {
   _RegisterState createState() => _RegisterState();
 }
 
-class _RegisterState extends State<Register> {
-  late BuildContext _context;
+class _RegisterState extends ConsumerState<Register> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -29,37 +32,31 @@ class _RegisterState extends State<Register> {
 
   bool _isLoading = false;
 
-  void _register() {
+  void _register() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
     try {
-      setState(() {
-        _isLoading = true;
-      });
-      _authenticationService.signupEmailPassword(
-          email: _emailController.text, password: _passwordController.text);
-      Navigator.of(_context)
-          .pushNamedAndRemoveUntil(OnboardingProfile.id, (route) => false);
-      setState(() {
-        _isLoading = false;
-      });
+      Session session = await _authenticationService.register(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      ref.read(sessionProvider).state = session;
+      Navigator.of(context).pushReplacementNamed(OnboardingProfile.id);
     } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      Get.snackbar(
-        'Registration failed',
-        'Unable to register your account',
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
+      snackBar(
+        title: 'Error',
+        message: e.toString(),
+        color: Colors.red.shade500,
       );
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     AppBar bar = AppBar();
@@ -108,7 +105,7 @@ class _RegisterState extends State<Register> {
                                     .textTheme
                                     .bodyText1!
                                     .copyWith(color: Colors.black),
-                                cursorColor: INPUT_HINT_COLOR,
+                                cursorColor: inputHintColor,
                                 decoration: InputDecoration(
                                   hintText: 'Email',
                                 ),
@@ -127,7 +124,7 @@ class _RegisterState extends State<Register> {
                                     .textTheme
                                     .bodyText1!
                                     .copyWith(color: Colors.black),
-                                cursorColor: INPUT_HINT_COLOR,
+                                cursorColor: inputHintColor,
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   hintText: 'Password',
@@ -147,7 +144,7 @@ class _RegisterState extends State<Register> {
                                     .textTheme
                                     .bodyText1!
                                     .copyWith(color: Colors.black),
-                                cursorColor: INPUT_HINT_COLOR,
+                                cursorColor: inputHintColor,
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   hintText: 'Password Confirmation',
@@ -176,7 +173,7 @@ class _RegisterState extends State<Register> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             RawMaterialButton(
-                              splashColor: PRIMARY_COLOR,
+                              splashColor: primaryColor,
                               onPressed: () => print('Twitter login'),
                               child: Image.asset(
                                 'assets/images/twitter.png',
@@ -185,7 +182,7 @@ class _RegisterState extends State<Register> {
                               shape: CircleBorder(),
                             ),
                             RawMaterialButton(
-                              splashColor: PRIMARY_COLOR,
+                              splashColor: primaryColor,
                               onPressed: () => print('Google login'),
                               child: Image.asset(
                                 'assets/images/google.png',

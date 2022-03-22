@@ -1,9 +1,9 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:passengers/pages/auth/forgot_password.dart';
 import 'package:passengers/pages/layout.dart';
-import 'package:passengers/services/firebase/authentication.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/utils/colors.dart';
 import 'package:passengers/utils/decorations.dart';
@@ -21,7 +21,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late BuildContext _context;
   final _formKey = GlobalKey<FormState>();
-  AuthenticationService _authService = locator<AuthenticationService>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -35,17 +34,17 @@ class _LoginState extends State<Login> {
       setState(() {
         _isLoading = true;
       });
-      await _authService.login(
-          email: _emailController.text, password: _passwordController.text);
+      // await _authService.login(
+      //     email: _emailController.text, password: _passwordController.text);
       Navigator.of(context).pushReplacementNamed(Layout.id);
-    } catch (e) {
+    } on AppwriteException catch (e) {
       print(e);
       setState(() {
         _isLoading = false;
       });
       Get.snackbar(
         'Login failed',
-        'Unable to log you into your account',
+        e.message ?? 'An error occurred while logging in.',
         colorText: Colors.white,
         backgroundColor: Colors.red,
       );
@@ -102,7 +101,7 @@ class _LoginState extends State<Login> {
                                   .textTheme
                                   .bodyText1!
                                   .copyWith(color: Colors.black),
-                              cursorColor: INPUT_HINT_COLOR,
+                              cursorColor: inputHintColor,
                               decoration: InputDecoration(
                                 hintText: 'Email',
                               ),
@@ -121,7 +120,7 @@ class _LoginState extends State<Login> {
                                   .textTheme
                                   .bodyText1!
                                   .copyWith(color: Colors.black),
-                              cursorColor: INPUT_HINT_COLOR,
+                              cursorColor: inputHintColor,
                               obscureText: true,
                               decoration: InputDecoration(
                                 hintText: 'Password',
@@ -144,30 +143,7 @@ class _LoginState extends State<Login> {
                       SizedBox(height: 10),
                       Text('OR', style: Theme.of(context).textTheme.bodyText1!),
                       SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RawMaterialButton(
-                            splashColor: PRIMARY_COLOR,
-                            onPressed: () => print('Twitter login'),
-                            child: Image.asset(
-                              'assets/images/twitter.png',
-                              scale: 1.5,
-                            ),
-                            shape: CircleBorder(),
-                          ),
-                          RawMaterialButton(
-                            splashColor: PRIMARY_COLOR,
-                            onPressed: () => print('Google login'),
-                            child: Image.asset(
-                              'assets/images/google.png',
-                              scale: 1.5,
-                            ),
-                            shape: CircleBorder(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
+
                       kActionableText(
                         context: context,
                         leadingText: 'forgot password?',

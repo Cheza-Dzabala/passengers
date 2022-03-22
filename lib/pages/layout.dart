@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:passengers/pages/landing.dart';
-import 'package:passengers/services/firebase/authentication.dart';
 import 'package:passengers/services/locator.dart';
+
+import '../services/authentication.service.dart';
 
 class Layout extends StatefulWidget {
   static String id = '/layout';
@@ -18,7 +19,7 @@ class _LayoutState extends State<Layout> {
 
   _logout() async {
     try {
-      await _authService.logout();
+      // await _authService.logout();
       Navigator.of(_context)
           .pushNamedAndRemoveUntil(Landing.id, (route) => false);
     } catch (e) {

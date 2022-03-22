@@ -1,18 +1,20 @@
-class PassengersUser {
-  String id;
-  String avatar;
-  String displayName;
-  String firstName;
-  String lastName;
-  String gender;
-  String country;
-  String city;
-  String description;
-  bool isActivated;
+import 'dart:typed_data';
 
-  PassengersUser({
+class Profile {
+  late String id;
+  late Uint8List? avatar;
+  late String displayName;
+  late String firstName;
+  late String lastName;
+  late String gender;
+  late String country;
+  late String city;
+  late String description;
+  late bool isActivated;
+
+  Profile({
     this.id = '',
-    this.avatar = '',
+    this.avatar,
     this.displayName = '',
     this.firstName = '',
     this.lastName = '',
@@ -23,9 +25,9 @@ class PassengersUser {
     this.isActivated = false,
   });
 
-  PassengersUser copyWith({
+  Profile copyWith({
     String? id,
-    String? avatar,
+    Uint8List? avatar,
     String? displayName,
     String? firstName,
     String? lastName,
@@ -35,7 +37,7 @@ class PassengersUser {
     String? description,
     bool? isActivated,
   }) {
-    return PassengersUser(
+    return Profile(
       id: id ?? this.id,
       avatar: avatar ?? this.avatar,
       displayName: displayName ?? this.displayName,
@@ -64,8 +66,8 @@ class PassengersUser {
     };
   }
 
-  factory PassengersUser.fromMap(Map<String, dynamic> map) {
-    return PassengersUser(
+  factory Profile.fromMap(Map<String, dynamic> map) {
+    return Profile(
       id: map['id'],
       avatar: map['avatar'],
       displayName: map['display_name'],
