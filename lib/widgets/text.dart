@@ -22,7 +22,7 @@ Row kActionableText({
           style: Theme.of(context)
               .textTheme
               .bodyText1!
-              .copyWith(color: TEXT_LINK_COLOR, fontSize: 12),
+              .copyWith(color: textLinkColor, fontSize: 12),
         ),
       ),
     ],

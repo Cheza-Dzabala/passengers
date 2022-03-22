@@ -10,16 +10,16 @@ SizedBox kFullWidthButton({
 }) {
   return SizedBox(
     width: double.infinity,
-    height: 50,
+    height: 60,
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: altButton ? BUTTON_ALT_COLOR : PRIMARY_COLOR,
+        primary: altButton ? buttonAltColor : primaryColor,
       ),
       onPressed: onPressed,
       child: Text(
         text.toUpperCase(),
         style: Theme.of(context).textTheme.button!.copyWith(
-              color: altButton ? PRIMARY_COLOR : Colors.white,
+              color: altButton ? primaryColor : Colors.white,
             ),
       ),
     ),

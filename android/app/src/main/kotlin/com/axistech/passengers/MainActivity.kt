@@ -1,4 +1,4 @@
-package com.axistech.passengers.passengers
+package com.axistech.passengers
 
 import io.flutter.embedding.android.FlutterActivity
 

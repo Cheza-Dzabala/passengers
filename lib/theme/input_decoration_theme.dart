@@ -7,12 +7,13 @@ InputDecorationTheme kInputDecorationTheme() {
       borderRadius: BorderRadius.circular(5),
       borderSide: BorderSide.none,
     ),
-    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
     filled: true,
-    fillColor: INPUT_FILL_COLOR,
+    fillColor: inputFillColor,
     floatingLabelBehavior: FloatingLabelBehavior.never,
     hintStyle: TextStyle(
-      color: INPUT_HINT_COLOR,
+      color: inputHintColor,
+      fontWeight: FontWeight.w600,
       fontSize: 16,
     ),
   );

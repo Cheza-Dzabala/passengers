@@ -1,11 +1,15 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/route_manager.dart';
-import 'package:passengers/auth/forgot_password.dart';
-import 'package:passengers/auth/login.dart';
-import 'package:passengers/auth/register.dart';
-import 'package:passengers/landing.dart';
-import 'package:passengers/layout.dart';
+import 'package:passengers/pages/auth/forgot_password.dart';
+import 'package:passengers/pages/auth/login.dart';
+import 'package:passengers/pages/auth/register.dart';
+import 'package:passengers/pages/landing.dart';
+import 'package:passengers/pages/layout.dart';
+import 'package:passengers/pages/onboarding/onboarding_details.dart';
+import 'package:passengers/pages/onboarding/onboarding_profile.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/theme/theme.dart';
 import 'package:passengers/utils/colors.dart';
@@ -24,11 +28,16 @@ class InitializeApp extends StatefulWidget {
 }
 
 class _InitializeAppState extends State<InitializeApp> {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  // final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  Future<String> _initialization() => Future.delayed(
+        const Duration(seconds: 2),
+        () => 'Large Latte',
+      );
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initialization,
+      // future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return MaterialApp(home: Loading());
@@ -55,17 +64,23 @@ class _PassengersState extends State<Passengers> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: MaterialApp(
-        title: 'Passengers',
-        initialRoute: Landing.id,
-        theme: kPassengersTheme(),
-        routes: {
-          Landing.id: (context) => Landing(),
-          Login.id: (context) => Login(),
-          Register.id: (context) => Register(),
-          ForgotPassword.id: (context) => ForgotPassword(),
-          Layout.id: (context) => Layout(),
-        },
+      debugShowCheckedModeBanner: false,
+      home: ProviderScope(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Passengers',
+          initialRoute: Landing.id,
+          theme: kPassengersTheme(),
+          routes: {
+            Landing.id: (context) => Landing(),
+            Login.id: (context) => Login(),
+            Register.id: (context) => Register(),
+            ForgotPassword.id: (context) => ForgotPassword(),
+            OnboardingProfile.id: (context) => OnboardingProfile(),
+            OnboardingDetails.id: (context) => OnboardingDetails(),
+            Layout.id: (context) => Layout(),
+          },
+        ),
       ),
     );
   }
@@ -85,7 +100,7 @@ class Loading extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircularProgressIndicator(color: PRIMARY_COLOR),
+            CircularProgressIndicator(color: primaryColor),
             Text('Preparing Application')
           ],
         ),

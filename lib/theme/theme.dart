@@ -6,7 +6,7 @@ import 'package:passengers/utils/colors.dart';
 
 ThemeData kPassengersTheme() {
   return ThemeData(
-    primaryColor: PRIMARY_COLOR,
+    primaryColor: primaryColor,
     fontFamily: 'Poppins',
     textTheme: kTextTheme(),
     elevatedButtonTheme: kElevatedButtonTheme(),

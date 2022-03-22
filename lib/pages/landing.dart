@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:passengers/auth/login.dart';
-import 'package:passengers/auth/register.dart';
+import 'package:passengers/pages/auth/login.dart';
+import 'package:passengers/pages/auth/register.dart';
 import 'package:passengers/widgets/buttons.dart';
 
 class Landing extends StatefulWidget {

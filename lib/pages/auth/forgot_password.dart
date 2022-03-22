@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:passengers/auth/login.dart';
-import 'package:passengers/services/firebase/authentication.dart';
+import 'package:passengers/pages/auth/login.dart';
+// import 'package:passengers/services/firebase/authentication.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/utils/colors.dart';
 import 'package:passengers/utils/decorations.dart';
@@ -22,7 +22,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
   bool _inAsyncCall = false;
   TextEditingController _emailController = TextEditingController();
-  AuthenticationService _authService = locator<AuthenticationService>();
+  // AuthenticationService _authService = locator<AuthenticationService>();
 
   _resetPassword() async {
     if (!_formKey.currentState!.validate()) {
@@ -32,7 +32,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       setState(() {
         _inAsyncCall = true;
       });
-      await _authService.resetPassword(email: _emailController.text);
+      // await _authService.resetPassword(email: _emailController.text);
       _emailController.text = '';
       Get.snackbar(
         'Success',
@@ -69,7 +69,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       resizeToAvoidBottomInset: true,
       body: ModalProgressHUD(
         inAsyncCall: _inAsyncCall,
-        color: PRIMARY_COLOR,
+        color: primaryColor,
         child: Container(
           padding: EdgeInsets.only(top: bar.preferredSize.height),
           decoration: kAuthAndOnboardingDecoration(),
@@ -109,7 +109,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   .textTheme
                                   .bodyText1!
                                   .copyWith(color: Colors.black),
-                              cursorColor: INPUT_HINT_COLOR,
+                              cursorColor: inputHintColor,
                               decoration: InputDecoration(
                                 hintText: 'Email',
                               ),

@@ -18,123 +18,115 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+    sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  flutter:
-    sdk: flutter
+    flutter:
+        sdk: flutter
 
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_signin_button: ^2.0.0
-  get_it: ^7.2.0
-    # Firebase Dependencies
-  firebase_core: ^1.5.0
-  firebase_auth: ^3.0.2
-  cloud_firestore: ^2.5.0
-  firebase_storage: ^10.0.2
-  firebase_analytics: ^8.3.0
-  firebase_messaging: ^10.0.5
-  firebase_in_app_messaging: ^0.5.0+8
-  firebase_performance: ^0.7.0+8
-  flutter_secure_storage: ^4.2.1
-
-  # Authentication
-  google_sign_in: "^4.5.1"
-  twitter_login: ^4.0.1
-  get: ^4.3.8
-  modal_progress_hud_nsn: ^0.1.0-nullsafety-0
+    # The following adds the Cupertino Icons font to your application.
+    # Use with the CupertinoIcons class for iOS style icons.
+    cupertino_icons: ^1.0.2
+    flutter_signin_button: ^2.0.0
+    get_it:
+        ^7.2.0
+        # Firebase Dependencies
+    # Authentication
+    get: ^4.3.8
+    modal_progress_hud_nsn: ^0.1.0-nullsafety-0
+    select_form_field: '^2.2.0'
+    image_picker: ^0.8.4+1
+    permission_handler: ^8.1.6
+    flutter_riverpod: ^1.0.0-dev.11
+    appwrite: ^4.0.1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+    flutter_test:
+        sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
+    # The following line ensures that the Material Icons font is
+    # included with your application, so that you can use the icons in
+    # the material Icons class.
+    uses-material-design: true
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
-  uses-material-design: true
+    # To add assets to your application, add an assets section, like this:
+    assets:
+        - assets/images/
 
-  # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/images/
+    # An image asset can refer to one or more resolution-specific "variants", see
+    # https://flutter.dev/assets-and-images/#resolution-aware.
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
+    # For details regarding adding assets from package dependencies, see
+    # https://flutter.dev/assets-and-images/#from-packages
 
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  fonts:
-    - family: Schyler
-      fonts:
-        - asset: assets/fonts/Poppins/Poppins-Black.ttf
-          weight: 900
-        - asset: assets/fonts/Poppins/Poppins-BlackItalic.ttf
-          weight: 900
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Poppins/Poppins-BoldItalic.ttf
-          weight: 700
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
-          weight: 800
-        - asset: assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf
-          weight: 800
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-ExtraLight.ttf
-          weight: 200
-        - asset: assets/fonts/Poppins/Poppins-ExtraLightItalic.ttf
-          weight: 200
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-Italic.ttf
-          weight: 400
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Poppins/Poppins-LightItalic.ttf
-          weight: 300
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Poppins/Poppins-MediumItalic.ttf
-          weight: 500
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf
-          weight: 600
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/Poppins/Poppins-ThinItalic.ttf
-          weight: 100
-          style: italic
-        - asset: assets/fonts/Poppins/Poppins-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/Poppins/Poppins-ThinItalic.ttf
-          weight: 100
-          style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: assets/fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+    # To add custom fonts to your application, add a fonts section here,
+    # in this "flutter" section. Each entry in this list should have a
+    # "family" key with the font family name, and a "fonts" key with a
+    # list giving the asset and other descriptors for the font. For
+    # example:
+    fonts:
+        - family: Schyler
+          fonts:
+              - asset: assets/fonts/Poppins/Poppins-Black.ttf
+                weight: 900
+              - asset: assets/fonts/Poppins/Poppins-BlackItalic.ttf
+                weight: 900
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-Bold.ttf
+                weight: 700
+              - asset: assets/fonts/Poppins/Poppins-BoldItalic.ttf
+                weight: 700
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
+                weight: 800
+              - asset: assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf
+                weight: 800
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-ExtraLight.ttf
+                weight: 200
+              - asset: assets/fonts/Poppins/Poppins-ExtraLightItalic.ttf
+                weight: 200
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-Italic.ttf
+                weight: 400
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-Light.ttf
+                weight: 300
+              - asset: assets/fonts/Poppins/Poppins-LightItalic.ttf
+                weight: 300
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-Medium.ttf
+                weight: 500
+              - asset: assets/fonts/Poppins/Poppins-MediumItalic.ttf
+                weight: 500
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+                weight: 400
+              - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
+                weight: 600
+              - asset: assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf
+                weight: 600
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-Thin.ttf
+                weight: 100
+              - asset: assets/fonts/Poppins/Poppins-ThinItalic.ttf
+                weight: 100
+                style: italic
+              - asset: assets/fonts/Poppins/Poppins-Thin.ttf
+                weight: 100
+              - asset: assets/fonts/Poppins/Poppins-ThinItalic.ttf
+                weight: 100
+                style: italic
+    #   - family: Trajan Pro
+    #     fonts:
+    #       - asset: assets/fonts/TrajanPro.ttf
+    #       - asset: fonts/TrajanPro_Bold.ttf
+    #         weight: 700
+    #
+    # For details regarding fonts from package dependencies,
+    # see https://flutter.dev/custom-fonts/#from-packages
