@@ -23,7 +23,7 @@ class OnboardingProfile extends ConsumerStatefulWidget {
 }
 
 class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
-  FileUploadService _uploadService = locator<FileUploadService>();
+  FileService _uploadService = locator<FileService>();
   bool isLoadingImage = false;
   late Uint8List profileImage;
   final _formKey = GlobalKey<FormState>();
@@ -36,9 +36,9 @@ class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
       return;
     }
 
-    ref.read(profileProvider).state.firstName = _firstName.text;
-    ref.read(profileProvider).state.lastName = _lastName.text;
-    ref.read(profileProvider).state.displayName = _displayName.text;
+    ref.read(profileProvider.state).state.firstName = _firstName.text;
+    ref.read(profileProvider.state).state.lastName = _lastName.text;
+    ref.read(profileProvider.state).state.displayName = _displayName.text;
 
     Navigator.of(context).pushReplacementNamed(OnboardingDetails.id);
   }
@@ -58,7 +58,7 @@ class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
             File file = await _uploadService.uploadImage(image: image);
             Uint8List filePreview =
                 await _uploadService.getImage(fileId: file.$id);
-            ref.read(profileProvider).state.avatar = file.$id;
+            ref.read(profileProvider.state).state.avatar = file.$id;
             setState(() {
               profileImage = filePreview;
               isLoadingImage = false;

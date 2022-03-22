@@ -5,11 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:passengers/feedback/snackbar.feedback.dart';
+import 'package:passengers/models/profile.model.dart';
 import 'package:passengers/pages/auth/forgot_password.dart';
 import 'package:passengers/pages/layout.dart';
 import 'package:passengers/providers/user_provider.dart';
 import 'package:passengers/services/authentication.service.dart';
 import 'package:passengers/services/locator.dart';
+import 'package:passengers/services/profile.service.dart';
 import 'package:passengers/utils/colors.dart';
 import 'package:passengers/utils/decorations.dart';
 import 'package:passengers/widgets/buttons.dart';
@@ -30,6 +32,7 @@ class _LoginState extends ConsumerState<Login> {
   TextEditingController _passwordController = TextEditingController();
   AuthenticationService _authenticationService =
       locator<AuthenticationService>();
+  ProfileService _profileService = locator<ProfileService>();
 
   bool _isLoading = false;
 
@@ -45,7 +48,10 @@ class _LoginState extends ConsumerState<Login> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      ref.read(sessionProvider).state = session;
+      ref.read(sessionProvider.state).state = session;
+      Profile profile =
+          await _profileService.getProfile(userId: session.userId);
+      ref.read(profileProvider.state).state = profile;
       Navigator.of(context).pushReplacementNamed(Layout.id);
     } on AppwriteException catch (e) {
       setState(() {

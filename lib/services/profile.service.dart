@@ -28,4 +28,17 @@ class ProfileService {
       throw Exception('Unable to update name');
     }
   }
+
+  Future<Profile> getProfile({required String userId}) async {
+    try {
+      var result = await database().getDocument(
+        collectionId: profileCollectionId,
+        documentId: userId,
+      );
+      return Profile.fromMap(result.data);
+    } catch (e) {
+      print('Get profile error $e');
+      throw Exception('Unable to get profile');
+    }
+  }
 }
