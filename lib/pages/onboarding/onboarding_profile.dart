@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -34,10 +35,11 @@ class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    ref.read(profileProvider).state.avatar = profileImage;
+
     ref.read(profileProvider).state.firstName = _firstName.text;
     ref.read(profileProvider).state.lastName = _lastName.text;
     ref.read(profileProvider).state.displayName = _displayName.text;
+
     Navigator.of(context).pushReplacementNamed(OnboardingDetails.id);
   }
 
@@ -53,9 +55,10 @@ class _OnboardingProfileState extends ConsumerState<OnboardingProfile> {
             setState(() {
               isLoadingImage = true;
             });
+            File file = await _uploadService.uploadImage(image: image);
             Uint8List filePreview =
-                await _uploadService.uploadImage(image: image);
-
+                await _uploadService.getImage(fileId: file.$id);
+            ref.read(profileProvider).state.avatar = file.$id;
             setState(() {
               profileImage = filePreview;
               isLoadingImage = false;

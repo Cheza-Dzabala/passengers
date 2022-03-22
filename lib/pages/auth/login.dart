@@ -1,16 +1,21 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:passengers/feedback/snackbar.feedback.dart';
 import 'package:passengers/pages/auth/forgot_password.dart';
 import 'package:passengers/pages/layout.dart';
+import 'package:passengers/providers/user_provider.dart';
+import 'package:passengers/services/authentication.service.dart';
 import 'package:passengers/services/locator.dart';
 import 'package:passengers/utils/colors.dart';
 import 'package:passengers/utils/decorations.dart';
 import 'package:passengers/widgets/buttons.dart';
 import 'package:passengers/widgets/text.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerStatefulWidget {
   static String id = '/login';
   const Login({Key? key}) : super(key: key);
 
@@ -18,11 +23,13 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-  late BuildContext _context;
+class _LoginState extends ConsumerState<Login> {
   final _formKey = GlobalKey<FormState>();
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  AuthenticationService _authenticationService =
+      locator<AuthenticationService>();
 
   bool _isLoading = false;
 
@@ -34,26 +41,26 @@ class _LoginState extends State<Login> {
       setState(() {
         _isLoading = true;
       });
-      // await _authService.login(
-      //     email: _emailController.text, password: _passwordController.text);
+      Session session = await _authenticationService.login(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      ref.read(sessionProvider).state = session;
       Navigator.of(context).pushReplacementNamed(Layout.id);
     } on AppwriteException catch (e) {
-      print(e);
       setState(() {
         _isLoading = false;
       });
-      Get.snackbar(
-        'Login failed',
-        e.message ?? 'An error occurred while logging in.',
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
+      snackBar(
+        title: 'login error',
+        message: e.message ?? 'Unable to login',
+        color: Colors.red,
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
     // Get width and height of screen using media query
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;

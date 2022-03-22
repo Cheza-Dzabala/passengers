@@ -4,6 +4,11 @@ import 'package:passengers/client/appwrite.dart';
 
 class AuthenticationService {
   Account account = Account(getClient());
+
+  logout({required Session session}) async {
+    await account.deleteSession(sessionId: session.$id);
+  }
+
   Future<Session> register({
     required String email,
     required String password,

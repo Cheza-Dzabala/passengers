@@ -12,11 +12,11 @@ String getFileExtension(String fileName) {
 }
 
 class FileUploadService {
-  Future<Uint8List> _getFile({required String fileId}) async {
+  Future<Uint8List> getImage({required String fileId}) async {
     return await storage().getFileView(bucketId: imageBucket, fileId: fileId);
   }
 
-  Future<Uint8List> uploadImage({required XFile image}) async {
+  Future<File> uploadImage({required XFile image}) async {
     final int randomNumber = Random().nextInt(10000);
     try {
       File result = await storage().createFile(
@@ -24,7 +24,7 @@ class FileUploadService {
         fileId: randomNumber.toString(),
         file: InputFile(path: image.path, filename: image.name),
       );
-      return _getFile(fileId: result.$id);
+      return result;
     } catch (error) {
       print(error);
       throw Exception('Upload error');
