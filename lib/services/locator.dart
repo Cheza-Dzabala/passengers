@@ -12,5 +12,5 @@ void setUpServiceLocator() {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationService());
   locator.registerLazySingleton<ProfileService>(() => ProfileService());
-  locator.registerLazySingleton<FileUploadService>(() => FileUploadService());
+  locator.registerLazySingleton<FileService>(() => FileService());
 }

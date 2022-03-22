@@ -11,7 +11,8 @@ String getFileExtension(String fileName) {
   return "." + fileName.split('.').last;
 }
 
-class FileUploadService {
+class FileService {
+  /// Returns image file in in Uint8List format.
   Future<Uint8List> getImage({required String fileId}) async {
     return await storage().getFileView(bucketId: imageBucket, fileId: fileId);
   }
