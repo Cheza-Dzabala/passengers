@@ -41,7 +41,7 @@ class _RegisterState extends ConsumerState<Register> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      ref.read(sessionProvider.state).state = session;
+      ref.read(sessionProvider).state = session;
       Navigator.of(context).pushReplacementNamed(OnboardingProfile.id);
     } catch (e) {
       snackBar(

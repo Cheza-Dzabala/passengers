@@ -30,7 +30,7 @@ class _PassengersAppBarState extends ConsumerState<PassengersAppBar> {
   @override
   void initState() {
     super.initState();
-    profile = ref.read(profileProvider.state).state;
+    profile = ref.read(profileProvider).state;
     _future = _fileService.getImage(fileId: profile.avatar);
   }
 
